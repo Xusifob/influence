@@ -5,7 +5,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 app.get('/',function(req,res){
-   // __dirname supergolobale
+    // __dirname supergolobale
     res.sendFile(__dirname + '/index.html');
 });
 
@@ -14,5 +14,13 @@ http.listen(3000,function(){
 });
 
 io.on('connection',function(socket){
-   console.log('a user is connected');
+    var choices = [];
+    // l'utilisateur est connecté
+    console.log('a user is connected');
+    socket.on('choice',function(what){
+
+        choices.push(what);
+        console.log('chosen: ' + what);
+        socket.emit('choices', choices);
+    });
 });

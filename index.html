@@ -2,14 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NodeJs</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Hello World</h1>
-</body>
+<h1 id="title">Hello World</h1>
 
+<ul id="list">
+
+</ul>
+
+<input type="text" class="form-control" id="txt">
+<button>click me</button>
 <script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 <script>
     var socket = io();
 </script>
+<script type="text/javascript">
+    $('button').on('click',function(){
+        if($('#txt').val() != "")
+            socket.emit('choice', $('#txt').val());
+        $('#txt').val('');
+    });
+    socket.on('choices',function(what) {
+        $('#list').html('');
+        for(i=0;i<what.length;i++)
+            $('#list').append('<li>'+ what[i]+'</li>');
+    });
+
+
+</script>
+</body>
 </html>
