@@ -13,55 +13,52 @@
       width: 200px;
       border: 2px solid white;
     }
-    img:hover {
+    img:hover {
       border: 2px solid #f00;
     }
   </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
 <h1>What is your favorite music ?</h1>
 
-
-<div class="choice one">
-  <div class="">
-    <img src="http://blog.ticketmaster.co.uk/wp-content/uploads/2015/08/one-direction-split-2015.jpg" alt="one direction">
-  </div>
-  One Direction
-  <span id="one_direction"></span>
+<div class="choice left">
+  <img>
+  <div class="caption"></div>
+  <div class="total"></div>
 </div>
-
-<div class="choice two">
-  <div class="">
-    <img src="http://cdn-img.instyle.com/sites/default/files/styles/428xflex/public/images/2012/TRANSFORMATIONS/2009-Justin-Bieber-400_0.jpg?itok=oD8Yh7Ec" alt="justin beiber">
-  </div>
-  Justin
-  <span id="justin_beiber"></span>
+<div class="choice right">
+  <img>
+  <div class="caption"></div>
+  <div class="total"></div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script>
-
   var socket = io();
-  $(document).ready(function(){
-    $('img').hover(function(){
-      var what = this.getAttribute('alt');
+  $(function () {
+    // detect mouse overs
+    $('.choice').on('mouseover', function () {
+      var what = 'left';
+      if($(this).hasClass('right')) {
+        what = 'right';
+      }
       console.log(what);
       socket.emit('choice', what);
-    },function(){
-
-    })
+    });
   });
-
-  socket.on('message', function (body) {
-    console.log('from server ' + body);
+  // update total
+  socket.on('total', function (votes) {
+    $(".left .total").html(votes.left.total);
+    $(".right .total").html(votes.right.total);
   });
-
-  socket.on('total',function(votes){
-    $('#justin_beiber').html(votes['justin beiber']);
-    $('#one_direction').html(votes['one direction']);
-  })
-
+  // update the whole vote
+  socket.on('votes', function (votes) {
+    $(".left img").prop('src', votes.left.src);
+    $(".left .caption").html(votes.left.name);
+    $(".right img").prop('src', votes.right.src);
+    $(".right .caption").html(votes.right.name);
+  });
 </script>
 
 </body>

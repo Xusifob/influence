@@ -1,7 +1,6 @@
-
-
 var express = require('express');
 var app = express();
+var choices = require('./choices.json');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -10,31 +9,31 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', function(socket){
-  socket.emit('message', 'welcome');
 
-
-  console.log('a user connected');
-  socket.on('choice', function(what){
-    console.log('chosen: ' + what);
-
-    if(what === 'justin beiber')
-      votes['justin beiber']++;
-    else
-      votes['one direction']++;
-
-    console.log(votes);
-
-    socket.emit('total',votes);
-
-  });
-});
-
-
-var votes = {
-  'justin beiber' : 0,
-  'one direction' : 0
+var votes = null;
+var start = function (i, socket) {
+  votes =  choices[i];
+  votes.left.total = 0;
+  votes.right.total = 0;
 };
+
+start(0);
+
+io.on('connection', function(socket){
+  // send all data
+  socket.emit('votes', votes);
+
+  socket.on('choice', function(what){
+    console.log('what');
+    if (what === 'left') {
+      votes.left.total++;
+    } else {
+      votes.right.total++;
+    }
+    socket.emit('total', votes);
+  });
+
+});
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
