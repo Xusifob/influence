@@ -38,15 +38,28 @@
   var socket = io();
   $(function () {
     // detect mouse overs
-    $('.choice').on('mouseover', function () {
-      var what = 'left';
-      if($(this).hasClass('right')) {
-        what = 'right';
-      }
-      console.log(what);
-      socket.emit('choice', what);
-    });
+    $('.choice').hover(onhover,offHover);
+
+
+    function onhover() {
+      socket.emit('onhover', rightleft($(this)));
+    }
+    function offHover(){
+      socket.emit('offhover',rightleft($(this)));
+    }
+
+
   });
+
+  // Return if the element is left || right
+  function rightleft(element){
+    var what = 'left';
+    if(element.hasClass('right')) {
+      what = 'right';
+    }
+    return what;
+  }
+
   // update total
   socket.on('total', function (votes) {
     $(".left .total").html(votes.left.total);

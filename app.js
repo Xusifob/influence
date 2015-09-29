@@ -23,8 +23,8 @@ io.on('connection', function(socket){
   // send all data
   socket.emit('votes', votes);
 
-  socket.on('choice', function(what){
-    console.log('what');
+  // On hover
+  socket.on('onhover', function(what){
     if (what === 'left') {
       votes.left.total++;
     } else {
@@ -32,6 +32,16 @@ io.on('connection', function(socket){
     }
     socket.emit('total', votes);
   });
+
+  // Off hover
+  socket.on('offhover',function(what){
+    if (what === 'left') {
+      votes.left.total--;
+    } else {
+      votes.right.total--;
+    }
+    socket.emit('total', votes);
+  })
 
 });
 

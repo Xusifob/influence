@@ -12,4 +12,17 @@
       "name" : "justin beiber"
     }
   }
+  {
+    "uid" : "34FDG46fdg",
+    "left" : {
+      "uid" : "rgdfgdfge564fg54",
+      "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Jim_Parsons_at_PaleyFest_2013.jpg/800px-Jim_Parsons_at_PaleyFest_2013.jpg",
+      "name" : "Sheldon Cooper"
+    },
+    "right" : {
+      "uid" : "rgdf5e64fhgf54",
+      "src" : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Johnny_Galecki_at_PaleyFest_2013.jpg/230px-Johnny_Galecki_at_PaleyFest_2013.jpg",
+      "name" : "Leonard Hofstadter"
+    }
+  }
 ]
