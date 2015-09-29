@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>music</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
   <style media="screen">
     .choice {
       float: left;
@@ -18,10 +21,12 @@
     }
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>What is your favorite music ?</h1>
+<h1>It's the final countdown ! (toudoudoum doum)</h1>
 
+<h3 id="countdown"></h3>
 <div class="choice left">
   <img>
   <div class="caption"></div>
@@ -48,7 +53,7 @@
       socket.emit('offhover',rightleft($(this)));
     }
 
-
+    countDown();
   });
 
   // Return if the element is left || right
@@ -65,13 +70,28 @@
     $(".left .total").html(votes.left.total);
     $(".right .total").html(votes.right.total);
   });
+
+
   // update the whole vote
   socket.on('votes', function (votes) {
     $(".left img").prop('src', votes.left.src);
     $(".left .caption").html(votes.left.name);
     $(".right img").prop('src', votes.right.src);
     $(".right .caption").html(votes.right.name);
+
+    i = 30;
   });
+
+  setInterval(function(){
+    countDown();
+  },100);
+
+  var i = 30;
+  function countDown(){
+    i--;
+    $('#countdown').html(i/10 + 's');
+  }
+
 </script>
 
 </body>
